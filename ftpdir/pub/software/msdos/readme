@@ -1,0 +1,308 @@
+
+
+
+
+
+
+
+                          Pascal-FC for PC Compatibles
+
+
+
+
+
+
+
+          The software and documentation are supplied subject  to  the
+          following conditions:
+
+          1.   The software and documentation are supplied without any
+               form  of  warranty  whatsoever,  and the authors cannot
+               accept any liability arising from  its  use  under  any
+               circumstances.
+
+          2.   The software has been compiled using compilers obtained
+               under  an Educational Licence.  It must only be used in
+               educational  institutions,  and  must  under  no   cir-
+               cumstances be used for financial gain.
+
+          3.   The software and documentation may be freely copied.
+
+          4.   We ask that you cite our work in any publications aris-
+               ing out of the use of Pascal-FC.
+                                 Directory Structure
+
+          This release of the Pascal-FC system includes a  SETUP  pro-
+          gram  that  is designed to transfer files from the distribu-
+          tion floppy to a hard  disc  (see  Chapter  1  of  the  User
+          Guide). If you have obtained the distribution by FTP or from
+          the World-Wide Web, don't run SETUP but simply create a dir-
+          ectory C;\PASFC and unzip the distribution zip file there. A
+          directory  structure  is set up  which, by default,  has its
+          root at C;\PASFC. The following diagram illustrates the str-
+          ucture.
+
+
+
+                                     PASFC
+                                       |
+                                       |
+                           ___________________________
+                           |           |             |
+                           |           |             |
+                          BIN         DOC           EX
+                                                     |
+                                                     |
+                                     ________________________________
+                                     |     |    |    |    |    |    |
+                                    MUTEX SEMS MONS RES CHANS ADA PHILOS
+
+
+
+          The directory "bin" contains the executable versions of  the
+          compiler  and  interpreters,  together with the pfc command.
+
+
+
+
+
+
+
+
+
+
+          The pfc command is a shell script, and the  paths  p  and  q
+          should be edited by the installer as appropriate.
+
+               The directory "ex"  has  a  number  of  subdirectories:
+          each  one  of  these contains a number of ".pfc" files which
+          are Pascal-FC source programs.
+
+               The directory "doc" contains two  documents:   "lrm.ps"
+          is the Language Reference Manual, and "sun_ug.ps is the User
+          Guide for Sun Systems.  Both are in Postscript  format,  and
+          have their tables of contents printed at the end.
+
+               The distribution disc has an additional subdirectory to
+          PASFC:   SRC.   This contains the Pascal source code for the
+          compiler and interpreters, but this directory is  not  down-
+          loaded by the SETUP program.
+
+
+Addition Information August 2001 - With thanks
+to Terry Moore who advised on the inclusion of
+these comments
+
+
+PascalFC dates from the time of Windows 3.1 when DOS 
+was still a popular operating system. It works in DOS 
+mode under later versions of Windows with some 
+qualification.
+
+It seems to be OK under Windows 95 and 98 because 
+these are built on top of DOS, but the DOS Prompt 
+is implemented on top of Windows NT and Windows 2000 
+and this causes some problems.
+
+In Windows 2000, the first character of the first 
+command parameter is dropped from the command line 
+for pfccomp, pint and ufpint, and this affects the 
+batch file, pfc.bat as well. The workaround is to 
+supply a dummy character (the open quote, `, being 
+unobtrusive, is a good choice). 
+
+When trying to run pint or ufpint, the message 
+Runtime error R6009, not enough space for environment, 
+could appear. This can be solved by deleting or 
+shortening some environment variables. If you still 
+need them for Windows programs, do not do this in 
+Windows setup, but use a batch file, or modify 
+Config.NT, or Autoexec.NT in the WINNT\System32 folder. 
+See the file pc_up.ps for more details.
+
+====
+
+Addition Material For pc_ug.ps - original of
+document not available so please read the following
+with original pc_ug.ps
+===================================================
+Issues when running under Windows 2000 and possibly
+Windows NT.
+---------------------------------------------------
+
+These programs are run in DOS mode by the DOS Prompt 
+program. As DOS is not as familiar to PC users as it 
+once was, we give some brief notes.
+
+DOS
+---
+A DOS command is of the form given in the example 
+below.
+
+  dir C:\WINNT\System32\*.* | sort > drctry.txt
+
+This lists the names of the files in the directory 
+C:\WINNT\System32, sorts it, and puts the result into 
+the file drctry.txt.
+
+The parts after the command, dir, are the command line
+parameters and are optional.
+
+The parameter, | sort, is a filter - a program that 
+takes the output and alters it in some way. Another 
+example is | more which pauses after each page of 
+output.
+
+The parameter > drctry.txt is a pipe which is like a 
+filter except that there is no processing of the output.
+
+The pipe >> drctry.txt would append the 
+output to the existing file rather than clearing it 
+first. One can also pipe the results directly to
+some other device like a printer.
+
+The pipe, < somefile, would redirect input from a 
+file instead of the keyboard. This makes no sense 
+for the dir command, which doesn't require input.
+
+The command
+
+  dir /p
+
+lists the current directory (as no path is specified) 
+and pauses at the end of each screen because of the 
+command line parameter, /p, which is a built in version 
+of | more.
+
+DOS and Windows use strings called "environment 
+variables" to keep information needed for running 
+programs. DOS users are familiar with the string, 
+prompt. prompt = $p$g is the most popular value 
+which makes the prompt the current path followed 
+by a greater than sign. E. g.
+
+  C:\pasfc\ex\mutex>
+
+The path command is also very useful.
+
+  path = .;C:\;C:\pasfc\bin
+
+means that when a command is given, if it is one 
+not built into DOS, the DOS shell looks first in 
+the current directory for the corresponding program, 
+then in drive C at the top level, and then in the 
+directory C:\pasfc\bin.
+
+Problems with PascalFC
+----------------------
+
+The first character problem
+---------------------------
+As pfccomp, pint and ufpint drop the first character 
+of the first command parameter, you need to type a 
+dummy character (preferably `). For example
+
+  pint `objFile pmdFile < data > results
+
+(to also illustrate piping) is a little more readable 
+than
+
+  pint oobjFile pmdFile < data > results
+
+You can do the same with the pfc command that compiles 
+and runs a program, but you could avoid the need for 
+the dummy character if you amend the file pfc.bat by 
+adding a character at the start of the next string 
+following each occurrence of pint and ufpint. Don't 
+use the % character as a dummy because it has a special 
+meaning in batch files (it defines a variable).
+
+The environment space problem
+-----------------------------
+A DOS path string (and similarly any other environment
+variable) cannot exceed 128 bytes. (In some versions 
+of DOS this restriction is relaxed, but then the 
+path cannot be edited in the usual way.) Also, the 
+total number bytes in the environment variables cannot 
+exceed 256 bytes, a number which varies with the DOS 
+version. As Windows can use far more environment 
+space than DOS, there is often a problem. Also, pint 
+and ufpint create or amend environment variables and
+cannot run if this space is not available.
+
+The path length restriction is unavoidable, but there 
+are tricks to minimise a path string. However, for 
+running PascalFC, the path can be quite short.
+
+According to the note, Q33449 - How to Increase MS-DOS 
+Environment Space, in the Microsoft support web pages,
+it is possible to increase the environment space in 
+Windows NT. However, the fix they give doesn't seem to 
+work in Windows 2000.
+
+We therefore need to reduce the amount of environment 
+space used. Changes made in a batch file run under 
+DOS Prompt will not affect the environment strings stored 
+in Windows. The path (and the DOS prompt) can be changed 
+directly. To see the path, without changing it, type
+
+  path
+
+To delete the path, type
+
+  path ;
+
+To replace the original path with ".;\pasFC\bin", type
+
+  path = .;\pasFC\bin
+
+To append the above to the current path, type
+
+  path = %path%;.;\pasFC\bin
+
+Apart from 'path' and 'prompt', other environment variables 
+are set with the 'set' command.
+
+It is a good idea to make a list of all your environment 
+variables so as to see what to amend, and to make it easier 
+to amend them. Type
+
+  set > setenv.bat
+
+to make a batch file, setenv.bat, containing all the 
+environment variables. You can then modify this to make 
+a batch file to reset the environment. Run it by 
+typing
+
+  setenv
+
+Put 'rem ' in front of those variables you want to leave 
+alone. This turns those lines into comments but keeps them 
+for future reference. Put 'SET ' in front of the others 
+and then amend the rest of the line to what you want.
+To delete the variable use, for example,
+
+  SET commandpath
+
+Preferably make the smallest number of changes necessary. 
+Perhaps you just need to shorten the 'path' string.
+
+The whole file could be pasted into Autoexec.NT, in the 
+directory C:\WINNT\System32, but this means that other DOS 
+programs are stuck with your new environment.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
